@@ -1,20 +1,32 @@
-; /* vim: set filetype=nasm */
-mov ah, 0x0e ; Enter tty mode
-mov al, 'H' ; load char
-int 0x10   ; Print char
+[org 0x7c00]
+mov ah, 0x0e; tty mode
 
-mov al, 'e' ; load char
-int 0x10   ; Print char
+; init stack
+mov bp, 0x8000
+mov sp, bp
 
-mov al, 'l' ; load char
-int 0x10   ; Print char
-int 0x10   ; Print char again
+mov bx, HELLO
+call print
 
-mov al, 'o' ; load char
-int 0x10   ; Print char
+call print_nl
 
-jmp $ ; loop
+mov dx, 0x12fe
+call print_hex
 
-; Padding and the magic number
+call print_nl
+
+mov bx, BYE
+call print
+
+jmp $
+
+HELLO:
+    db 'Hello, World', 0
+BYE:
+    db 'Bye', 0
+
+%include "print.asm"
+
+; magic number
 times 510-($-$$) db 0
-dw 0xaa55 
+dw 0xaa55
