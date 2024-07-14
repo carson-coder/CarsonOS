@@ -1,4 +1,2 @@
 # CarsonOS
-# CarsonOS
-# CarsonOS
-# CarsonOS
+A lightweight useless os
